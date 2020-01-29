@@ -6,10 +6,19 @@
     <description>Recent content in Posts on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 27 Jan 2020 18:03:09 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jan 2020 19:49:31 +0900</lastBuildDate>
     
 	<atom:link href="https://zajann.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hugo With Github</title>
+      <link>https://zajann.github.io/posts/hugo-with-github/</link>
+      <pubDate>Wed, 29 Jan 2020 19:49:31 +0900</pubDate>
+      
+      <guid>https://zajann.github.io/posts/hugo-with-github/</guid>
+      <description>hugo와 github을 이용한 블로그 개설 1. 두개의 repository 생성 블로그 Root 레파지토리 github page 운용을 위한 레파지토리 2. github 커밋 https://gohugo.io/hosting-and-deployment/hosting-on-github/#step-by-step-instructions 위에것 그대로 따라하기 (주의) 레파지</description>
+    </item>
     
     <item>
       <title>Markdown_sample</title>
