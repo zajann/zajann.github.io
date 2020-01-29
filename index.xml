@@ -6,19 +6,10 @@
     <description>Recent content on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 29 Jan 2020 19:29:02 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jan 2020 18:03:09 +0900</lastBuildDate>
     
 	<atom:link href="https://zajann.github.io/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Test2</title>
-      <link>https://zajann.github.io/posts/test2/</link>
-      <pubDate>Wed, 29 Jan 2020 19:29:02 +0900</pubDate>
-      
-      <guid>https://zajann.github.io/posts/test2/</guid>
-      <description>이것도 테스트 페이지입니다 이제 이걸 삭제해 보겠스니다</description>
-    </item>
     
     <item>
       <title>Markdown_sample</title>
