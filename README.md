@@ -1,2 +1,2 @@
 # zajann.github.io
-## https://zajan-dev.com
+https://www.zajan-dev.com
