@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on zajan&#39;s devnote</title>
+    <link>https://zajann.github.io/categories/</link>
+    <description>Recent content in Categories on zajan&#39;s devnote</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Mon, 27 Jan 2020 18:03:09 +0900</lastBuildDate>
+    
+	<atom:link href="https://zajann.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>dfsfsfsf</title>
+      <link>https://zajann.github.io/categories/dfsfsfsf/</link>
+      <pubDate>Mon, 27 Jan 2020 17:57:44 +0900</pubDate>
+      
+      <guid>https://zajann.github.io/categories/dfsfsfsf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>testcat</title>
+      <link>https://zajann.github.io/categories/testcat/</link>
+      <pubDate>Mon, 27 Jan 2020 17:57:44 +0900</pubDate>
+      
+      <guid>https://zajann.github.io/categories/testcat/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
