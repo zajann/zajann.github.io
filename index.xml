@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>zajan&#39;s devnote</title>
-    <link>https://www.zajan-dev.com/</link>
+    <link>https://zajan-dev.com/</link>
     <description>Recent content on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
     <lastBuildDate>Wed, 29 Jan 2020 19:49:31 +0900</lastBuildDate>
     
-	<atom:link href="https://www.zajan-dev.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://zajan-dev.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hugo와 Github을 이용한 블로그 개설하기 - 1</title>
-      <link>https://www.zajan-dev.com/posts/hugo-with-github/</link>
+      <link>https://zajan-dev.com/posts/hugo-with-github/</link>
       <pubDate>Wed, 29 Jan 2020 19:49:31 +0900</pubDate>
       
-      <guid>https://www.zajan-dev.com/posts/hugo-with-github/</guid>
+      <guid>https://zajan-dev.com/posts/hugo-with-github/</guid>
       <description>hugo와 github을 처음 시작하는 비전공자를 위한 튜토리얼 1. 두개의 repository 생성 블로그 Root 레파지토리 github page 운용을 위한 레파지토리 2. github 커밋 https://gohugo.io/hosting-and-deployment/hosting-on-github/#step-by-step-instructions 위에것 그대로 따라</description>
     </item>
     
