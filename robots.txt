@@ -1,1 +1,4 @@
+
 User-agent: *
+Allow: /
+Sitemap: https://www.zajan-dev.com/sitemap.xml
