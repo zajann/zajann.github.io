@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>go on zajan&#39;s devnote</title>
+    <link>https://www.zajan-dev.com/tags/go/</link>
+    <description>Recent content in go on zajan&#39;s devnote</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Mon, 23 Nov 2020 01:44:49 +0900</lastBuildDate>
+    
+	<atom:link href="https://www.zajan-dev.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[Go] 누가 내 Slice를 옮겼을까</title>
+      <link>https://www.zajan-dev.com/posts/prevent-slice-modification/</link>
+      <pubDate>Mon, 23 Nov 2020 01:44:49 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/prevent-slice-modification/</guid>
+      <description>얼마 전 커뮤니티에 slice를 인자로 넘길 때 변조를 방지할 수 있는 방법 에 대한 질문이 올라왔다. 해당 질문을 토대로 slice의 변조를 방지할 수 있는 방법을 정리</description>
+    </item>
+    
+  </channel>
+</rss>
