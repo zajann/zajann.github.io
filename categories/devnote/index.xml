@@ -6,7 +6,16 @@
     <description>Recent content in devnote on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 23 Nov 2020 01:44:49 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/categories/devnote/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 18 Mar 2021 20:34:46 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/categories/devnote/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Python] 파이썬 기초를 알아보자</title>
+      <link>https://www.zajan-dev.com/posts/python-basic-syntax/</link>
+      <pubDate>Thu, 18 Mar 2021 20:34:46 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/python-basic-syntax/</guid>
+      <description>수박 겉핥기로만 알아오던 파이썬의 문법과 구문에 대해 정리해본다. 인터넷, 서적에 있는 많은 내용을 참고하고 정리한다. Last Update: 2021-03-18 리스트 컴프리헨션(List Comprehension) 기</description>
+    </item>
+    
     <item>
       <title>[Go] 누가 내 Slice를 옮겼을까</title>
       <link>https://www.zajan-dev.com/posts/prevent-slice-modification/</link>
