@@ -6,7 +6,25 @@
     <description>Recent content on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 24 Mar 2021 21:14:21 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Apr 2021 00:18:21 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[DevDiary] 그림을 그릴 줄 아는 개발자</title>
+      <link>https://www.zajan-dev.com/posts/devdiary-2021-04-15/</link>
+      <pubDate>Thu, 15 Apr 2021 00:18:21 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/devdiary-2021-04-15/</guid>
+      <description>나는 지식/정보를 전달해주는TV프로그램이나 다큐멘터리, 유튜브 채널을 좋아하고 즐겨본다. 생소한 분야, 방대한 양의 정보임에도 불구하고 정말 이해가 쏙쏙된</description>
+    </item>
+    
+    <item>
+      <title>[Go번역] sync.Pool 디자인 이해하기</title>
+      <link>https://www.zajan-dev.com/posts/understatnd-the-design-of-sync-pool/</link>
+      <pubDate>Wed, 14 Apr 2021 23:37:13 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/understatnd-the-design-of-sync-pool/</guid>
+      <description>이 포스트는 Go: Understand the Design of Sync.Pool 블로그 포스트를 번역한 것으로 오역 또는 의역이 포함될 수 있습니다. 이 글은 Go.1.12과 1.13 버전에 기반하고 두 버전 사이의 sync/pool.go 의 변화를</description>
+    </item>
+    
     <item>
       <title>[알고리즘] Leetcode: Valid Palindrome</title>
       <link>https://www.zajan-dev.com/posts/leetcode-valid-palindrome/</link>

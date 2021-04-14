@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>devdiary on zajan&#39;s devnote</title>
+    <link>https://www.zajan-dev.com/categories/devdiary/</link>
+    <description>Recent content in devdiary on zajan&#39;s devnote</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Thu, 15 Apr 2021 00:18:21 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/categories/devdiary/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[DevDiary] 그림을 그릴 줄 아는 개발자</title>
+      <link>https://www.zajan-dev.com/posts/devdiary-2021-04-15/</link>
+      <pubDate>Thu, 15 Apr 2021 00:18:21 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/devdiary-2021-04-15/</guid>
+      <description>나는 지식/정보를 전달해주는TV프로그램이나 다큐멘터리, 유튜브 채널을 좋아하고 즐겨본다. 생소한 분야, 방대한 양의 정보임에도 불구하고 정말 이해가 쏙쏙된</description>
+    </item>
+    
+  </channel>
+</rss>

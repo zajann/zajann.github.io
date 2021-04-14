@@ -6,7 +6,16 @@
     <description>Recent content in go on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 23 Nov 2020 01:44:49 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 14 Apr 2021 23:37:13 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Go번역] sync.Pool 디자인 이해하기</title>
+      <link>https://www.zajan-dev.com/posts/understatnd-the-design-of-sync-pool/</link>
+      <pubDate>Wed, 14 Apr 2021 23:37:13 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/understatnd-the-design-of-sync-pool/</guid>
+      <description>이 포스트는 Go: Understand the Design of Sync.Pool 블로그 포스트를 번역한 것으로 오역 또는 의역이 포함될 수 있습니다. 이 글은 Go.1.12과 1.13 버전에 기반하고 두 버전 사이의 sync/pool.go 의 변화를</description>
+    </item>
+    
     <item>
       <title>[Go] 누가 내 Slice를 옮겼을까</title>
       <link>https://www.zajan-dev.com/posts/prevent-slice-modification/</link>
