@@ -6,22 +6,22 @@
     <description>Recent content in Categories on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 15 Apr 2021 00:18:21 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Apr 2021 23:56:47 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>devnote</title>
+      <link>https://www.zajan-dev.com/categories/devnote/</link>
+      <pubDate>Tue, 20 Apr 2021 23:56:47 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/categories/devnote/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>devdiary</title>
       <link>https://www.zajan-dev.com/categories/devdiary/</link>
       <pubDate>Thu, 15 Apr 2021 00:18:21 +0900</pubDate>
       
       <guid>https://www.zajan-dev.com/categories/devdiary/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>devnote</title>
-      <link>https://www.zajan-dev.com/categories/devnote/</link>
-      <pubDate>Wed, 14 Apr 2021 23:37:13 +0900</pubDate>
-      
-      <guid>https://www.zajan-dev.com/categories/devnote/</guid>
       <description></description>
     </item>
     

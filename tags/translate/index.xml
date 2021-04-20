@@ -6,7 +6,16 @@
     <description>Recent content in translate on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 14 Apr 2021 23:37:13 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/tags/translate/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Apr 2021 23:56:47 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/tags/translate/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Go번역] Learn Go with Tests Ko: Reflection</title>
+      <link>https://www.zajan-dev.com/posts/learn-go-with-test-ko-reflection/</link>
+      <pubDate>Tue, 20 Apr 2021 23:56:47 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/learn-go-with-test-ko-reflection/</guid>
+      <description>이 글은 Learn Go with Tests의 한국어 번역 프로젝트에 참여하여 담당하였던 Reflection 파트를 번역한 글입니다. Go의 기본적인 문법과 더불어 Lean Test &amp;gt; Refactor &amp;gt; Test 반복 형태인 TDD(Test Driven D</description>
+    </item>
+    
     <item>
       <title>[Go번역] sync.Pool 디자인 이해하기</title>
       <link>https://www.zajan-dev.com/posts/understatnd-the-design-of-sync-pool/</link>
