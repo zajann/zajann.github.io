@@ -6,7 +6,16 @@
     <description>Recent content in Posts on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 20 Apr 2021 23:56:47 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Apr 2021 19:03:13 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Github] Contribution이 Graph에 반영되지 않은 경우</title>
+      <link>https://www.zajan-dev.com/posts/github-contribution-not-showing/</link>
+      <pubDate>Wed, 21 Apr 2021 19:03:13 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/github-contribution-not-showing/</guid>
+      <description>Intro 가뭄에 콩 나듯 보이던 내 소중한 잔디들. 최근 블로그, 개인프로젝트, 이직 등의 이유로 github 활동을 다시 시작했다. 그런데 분명 commit을 했는데도 contr</description>
+    </item>
+    
     <item>
       <title>[Go번역] Learn Go with Tests Ko: Reflection</title>
       <link>https://www.zajan-dev.com/posts/learn-go-with-test-ko-reflection/</link>

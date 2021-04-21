@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="zajan">
+		<meta name="description" content="zajan&#39;s dev note">
+
+    
+    <meta property="og:title" content="[Github] Contribution이 Graph에 반영되지 않은 경우" />
+<meta property="og:description" content="Intro 가뭄에 콩 나듯 보이던 내 소중한 잔디들. 최근 블로그, 개인프로젝트, 이직 등의 이유로 github 활동을 다시 시작했다. 그런데 분명 commit을 했는데도 contr" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.zajan-dev.com/posts/github-contribution-not-showing/" />
+<meta property="article:published_time" content="2021-04-21T19:03:13+09:00" />
+<meta property="article:modified_time" content="2021-04-21T19:03:13+09:00" />
+
+    
+
+		<meta name="generator" content="Hugo 0.80.0" />
+		<title>[Github] Contribution이 Graph에 반영되지 않은 경우 &middot; zajan&#39;s devnote</title>
+		<link rel="shortcut icon" href="https://www.zajan-dev.com/images/favicon.ico">
+		<link rel="stylesheet" href="https://www.zajan-dev.com/css/style.css">
+		<link rel="stylesheet" href="https://www.zajan-dev.com/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="https://www.zajan-dev.com/css/font-awesome.min.css">
+		
+
+		
+		<link href="https://www.zajan-dev.com/index.xml" rel="alternate" type="application/rss+xml" title="zajan&#39;s devnote" />
+		
+
+		
+		<link rel="stylesheet" href="https://www.zajan-dev.com/css/syntax.css">
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://www.zajan-dev.com/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://www.zajan-dev.com/posts'>Archive</a>
+	<a href='https://www.zajan-dev.com/categories'>Categories</a>
+	<a href='https://www.zajan-dev.com/tags'>Tags</a>
+	<a href='https://www.zajan-dev.com/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="https://www.zajan-dev.com/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        [Github] Contribution이 Graph에 반영되지 않은 경우
+                    </h1>
+                    <h2 class="headline">
+                    Apr 21, 2021 19:03
+                    · 1363 words
+                    · 3 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="https://www.zajan-dev.com/tags/github">github</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                    <div id="toc">
+                      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#intro">Intro</a></li>
+    <li><a href="#contribution의-조건">Contribution의 조건</a>
+      <ul>
+        <li><a href="#1-issues-pull-requests-discusstions">1. Issues, pull requests, discusstions</a></li>
+        <li><a href="#2-commit">2. Commit</a></li>
+        <li><a href="#3-others">3. Others</a></li>
+      </ul>
+    </li>
+    <li><a href="#contribution으로-집계되지-않는-일반적인-이유들">Contribution으로 집계되지 않는 일반적인 이유들</a>
+      <ul>
+        <li><a href="#1-생성된지-24시간이-지나지-않은-commit">1. 생성된지 24시간이 지나지 않은 commit</a></li>
+        <li><a href="#2-로컬-commit-이메일이-계정에-연결되지-않은-경우">2. 로컬 commit 이메일이 계정에 연결되지 않은 경우</a></li>
+        <li><a href="#3-default-master-main-이나-gh-pages-브랜치로-만들어진-commit이-아닌-경우">3. default (master, main) 이나 <code>gh-pages</code> 브랜치로 만들어진 commit이 아닌 경우</a></li>
+        <li><a href="#4-fork-된-레파지토리에서-생성된-commit">4. fork 된 레파지토리에서 생성된 commit</a></li>
+      </ul>
+    </li>
+    <li><a href="#outro">Outro</a></li>
+  </ul>
+</nav>
+                    </div>
+                  
+                
+                <section id="post-body">
+                    <h2 id="intro">Intro</h2>
+<p>가뭄에 콩 나듯 보이던 내 소중한 잔디들. 최근 블로그, 개인프로젝트, 이직 등의 이유로 github 활동을 다시 시작했다. 그런데 분명 commit을 했는데도 contribution에 반영이 안되는 경우가 종종 발생했다. 처음엔 집계가 되는 시간이 있나보다하고 넘어갔었는데 시간이 지나도 변하지 않아 문제 원인을 찾아보았다.</p>
+<p>이유는 바로, <strong>로컬 상에 git 사용자 이메일 설정을 해놓지 않아서</strong>였다. 정확히는 git commit을 날리는 local 상 사용자 이메일 설정이 Github계정의 이메일과 일치하지 않아서였다.</p>
+<p>맥북을 교체하고 git 기본 설정을 제대로 해주지 않아 맥북으로 작업을 할때는 Contribution에 반영이 되지 않았던 것이다. Contribute로 인정 받지 못한(?) 이전 작업들이 조금 아깝지만 늦게라도 알아서 다행이다. 이번 기회에 <code>Github Contribution의 조건</code>이 어떻게 되는지 정리해본다.</p>
+<p><a href="https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/why-are-my-contributions-not-showing-up-on-my-profile">Github 문서</a> 에 따르면 Contribution의 조건은 아래와 같다.</p>
+<h2 id="contribution의-조건">Contribution의 조건</h2>
+<h3 id="1-issues-pull-requests-discusstions">1. Issues, pull requests, discusstions</h3>
+<ul>
+<li>신규 issue를 작성</li>
+<li>신규 discusstion을 작성</li>
+<li>discusstion에 답변</li>
+<li>Pull Requests 날리기</li>
+<li>Pull Requests 리뷰 제출</li>
+</ul>
+<h3 id="2-commit">2. Commit</h3>
+<p>기본적으로 아래의 조건을 만족하는 commit은 모두 Contribution에 집계된다.</p>
+<ul>
+<li>commit 시 사용되는 이메일이 Github 계정 이메일과 일치해야 함</li>
+<li>fork한 레파지토리가 아닌 독립적인 레파지토리에 대한 commit이어야 함</li>
+<li>레파지토리의 default 브랜치(보통 master 이나 main)에서 생성된 commit이어야 함</li>
+<li>혹은 <code>gh-pages</code> 브랜치에서 생성된 commit (프로젝트 페이지를 위한 레파지토리)</li>
+</ul>
+<h3 id="3-others">3. Others</h3>
+<ul>
+<li>레파지토리의 collaborator가 되거나 organization의 멤버가 되었을 때</li>
+<li>내 레파지토리가 fork 되었을 때</li>
+<li>내 레파지토리에 star를 받았을 때</li>
+</ul>
+<p>Contribution 집계에 대한 꽤나 상세한 조건이 있다. 그럼 문서에서 설명하는 Contribution으로 집계되지 않는 이유에 대해 알아본다.</p>
+<h2 id="contribution으로-집계되지-않는-일반적인-이유들">Contribution으로 집계되지 않는 일반적인 이유들</h2>
+<h3 id="1-생성된지-24시간이-지나지-않은-commit">1. 생성된지 24시간이 지나지 않은 commit</h3>
+<p>commit이 생성되고 Contribution으로 집계되기 까지 여러 조건을 확인해야한다. 따라서 commit은 최대 24시간이 지난 이후 graph에 반영된다.</p>
+<h3 id="2-로컬-commit-이메일이-계정에-연결되지-않은-경우">2. 로컬 commit 이메일이 계정에 연결되지 않은 경우</h3>
+<p>commit은 Github계정에 연결된 이메일로 만들어지거나 github에서 제공되는 <code>noreply</code> 이메일로 생성되어야 한다. (<code>noreply</code> 이메일은 계정 이메일을 private으로 설정할 때 제공되는 이메일)</p>
+<h3 id="3-default-master-main-이나-gh-pages-브랜치로-만들어진-commit이-아닌-경우">3. default (master, main) 이나 <code>gh-pages</code> 브랜치로 만들어진 commit이 아닌 경우</h3>
+<p>default 나 <code>gh-pages</code> 브랜치로 생성된 commit 만이 Contribution으로 집계된다. 만약 다른 브랜치로 커밋을 생성하고 Contribution으로 집계를 원하는 경우 아래 작업이 필요하다.</p>
+<ul>
+<li>pull request를 만들어 default 나 <code>gh-pages</code> 브랜치로 merge</li>
+<li>레파지토리의 default 브랜치를 변경</li>
+</ul>
+<h3 id="4-fork-된-레파지토리에서-생성된-commit">4. fork 된 레파지토리에서 생성된 commit</h3>
+<p>fork된 레파지토리에서 생성된 commit은 Contribution으로 집계되지 않는다. 만약 집계를 원하는 경우 아래 작업이 필요하다.</p>
+<ul>
+<li>pull request를 만들어 원본 레파지토리에서 merge</li>
+<li>Github Support에 연락해 fork된 레파지토리를 독립 레파지토리로 detach (<del>이렇게 까지..?</del>)</li>
+</ul>
+<h2 id="outro">Outro</h2>
+<p>이 글을 통해 우리의 <code>소중한 잔디</code>를 본인도 모르게 흘려버리는 일이 없었으면 한다. (<del>나처럼&hellip;</del>)</p>
+<p>로컬 상에 git 사용자 설정은 아래처럼 할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># set user name &amp; email</span>
+git config --global user.name <span class="s2">&#34;username&#34;</span>
+git config --global user.email <span class="s2">&#34;email@example.com&#34;</span>
+
+<span class="c1"># check user setting</span>
+git config --global user.name
+git config --global user.email
+</code></pre></div><p><a href="https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/setting-your-commit-email-address#about-commit-email-addresses">Github 문서 참고</a></p>
+<p>이제 열심히 잔디를 심어보자 :)</p>
+
+                </section>
+            </article>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zajann-github-io'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+                <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/posts/learn-go-with-test-ko-reflection/">[Go번역] Learn Go with Tests Ko: Reflection<aside class="dates">Apr 20 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/devdiary-2021-04-15/">[DevDiary] 그림을 그릴 줄 아는 개발자<aside class="dates">Apr 15 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/understatnd-the-design-of-sync-pool/">[Go번역] sync.Pool 디자인 이해하기<aside class="dates">Apr 14 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/leetcode-valid-palindrome/">[알고리즘] Leetcode: Valid Palindrome<aside class="dates">Mar 24 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/python-basic-syntax/">[Python] 파이썬 기초를 알아보자<aside class="dates">Mar 18 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/prevent-slice-modification/">[Go] 누가 내 Slice를 옮겼을까<aside class="dates">Nov 23 2020</aside></a>
+        </li>
+    
+</ul>
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/zajann">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    
+    <a class="symbol" href="https://www.zajan-dev.com/index.xml">
+        <i class="fa fa-rss-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2021 <i class="fa fa-heart" aria-hidden="true"></i> zajan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://www.zajan-dev.com/js/jquery-3.3.1.min.js"></script>
+<script src="https://www.zajan-dev.com/js/main.js"></script>
+<script src="https://www.zajan-dev.com/js/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.7.1/gist-embed.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-157313054-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>
