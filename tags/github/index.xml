@@ -6,7 +6,11 @@
     <description>Recent content in github on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 21 Apr 2021 19:03:13 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Apr 2021 19:03:13 +0900</lastBuildDate>
+    
+	<atom:link href="https://www.zajan-dev.com/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>[Github] Contribution이 Graph에 반영되지 않은 경우</title>
       <link>https://www.zajan-dev.com/posts/github-contribution-not-showing/</link>

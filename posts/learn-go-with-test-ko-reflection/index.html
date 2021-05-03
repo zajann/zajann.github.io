@@ -10,7 +10,7 @@
 
     
     <meta property="og:title" content="[Go번역] Learn Go with Tests Ko: Reflection" />
-<meta property="og:description" content="이 글은 Learn Go with Tests의 한국어 번역 프로젝트에 참여하여 담당하였던 Reflection 파트를 번역한 글입니다. Go의 기본적인 문법과 더불어 Lean Test &gt; Refactor &gt; Test 반복 형태인 TDD(Test Driven D" />
+<meta property="og:description" content="이 글은 Learn Go with Tests의 한국어 번역 프로젝트 에 참여하여 담당하였던 Reflection 파트를 번역한 글입니다. Go의 기본적인 문법과 더불어 Lean Test &gt; Refactor &gt; Test 반복 형태인 TDD(Test Driven D" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://www.zajan-dev.com/posts/learn-go-with-test-ko-reflection/" />
 <meta property="article:published_time" content="2021-04-20T23:56:47+09:00" />
@@ -18,7 +18,7 @@
 
     
 
-		<meta name="generator" content="Hugo 0.80.0" />
+		<meta name="generator" content="Hugo 0.63.2" />
 		<title>[Go번역] Learn Go with Tests Ko: Reflection &middot; zajan&#39;s devnote</title>
 		<link rel="shortcut icon" href="https://www.zajan-dev.com/images/favicon.ico">
 		<link rel="stylesheet" href="https://www.zajan-dev.com/css/style.css">
@@ -64,7 +64,7 @@
                     </h1>
                     <h2 class="headline">
                     Apr 20, 2021 23:56
-                    · 6394 words
+                    · 6391 words
                     · 13 minute read
                       <span class="tags">
                       
@@ -84,9 +84,9 @@
                     <div id="toc">
                       <nav id="TableOfContents">
   <ul>
-    <li><a href="#interface-란-무엇인가"><code>interface</code> 란 무엇인가?</a>
+    <li><a href="#interface-란-무엇인가">interface 란 무엇인가?</a>
       <ul>
-        <li><a href="#그렇다면-모든-것에-interface를-사용하고-정말-유연한--함수를-갖는-건-어떨까">그렇다면 모든 것에 <code>interface</code>를 사용하고 정말 유연한  함수를 갖는 건 어떨까?</a></li>
+        <li><a href="#그렇다면-모든-것에-interface를-사용하고-정말-유연한--함수를-갖는-건-어떨까">그렇다면 모든 것에 interface를 사용하고 정말 유연한  함수를 갖는 건 어떨까?</a></li>
       </ul>
     </li>
     <li><a href="#테스트부터-작성하기">테스트부터 작성하기</a></li>
@@ -143,13 +143,63 @@
                 
                 <section id="post-body">
                     <blockquote>
-<p>이 글은 <a href="https://github.com/MiryangJung/learn-go-with-tests-ko">Learn Go with Tests의 한국어 번역 프로젝트</a>에 참여하여 담당하였던 Reflection 파트를 번역한 글입니다.</p>
+<p>이 글은 <a 
+    href="https://github.com/MiryangJung/learn-go-with-tests-ko"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    Learn Go with Tests의 한국어 번역 프로젝트
+</a>에 참여하여 담당하였던 Reflection 파트를 번역한 글입니다.</p>
 <p>Go의 기본적인 문법과 더불어 Lean Test &gt; Refactor &gt; Test 반복 형태인 TDD(Test Driven Development)를 경험할 수 있는 좋은 프로젝트입니다. 아래 Gitbook을 통해 더 다양한 내용을 볼 수 있습니다.</p>
-<p><a href="https://quii.gitbook.io/learn-go-with-tests/">[원문(Englisth) Gitbook]</a> <a href="https://miryang.gitbook.io/learn-go-with-tests/">[한국어 Gitbook]</a></p>
+<p><a 
+    href="https://quii.gitbook.io/learn-go-with-tests/"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    [원문(Englisth) Gitbook]
+</a> <a 
+    href="https://miryang.gitbook.io/learn-go-with-tests/"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    [한국어 Gitbook]
+</a></p>
 </blockquote>
 <h1 id="reflection">Reflection</h1>
-<p><strong><a href="https://github.com/quii/learn-go-with-tests/tree/main/reflection">이 챕터의 모든 코드는 여기에서 확인할 수 있다.</a></strong></p>
-<p><a href="https://twitter.com/peterbourgon/status/1011403901419937792?s=09">From Twitter</a></p>
+<p><strong><a 
+    href="https://github.com/quii/learn-go-with-tests/tree/main/reflection"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    이 챕터의 모든 코드는 여기에서 확인할 수 있다.
+</a></strong></p>
+<p><a 
+    href="https://twitter.com/peterbourgon/status/1011403901419937792?s=09"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    From Twitter
+</a></p>
 <blockquote>
 <p>golang 챌린지: 구조체 <code>x</code>를 받고 내부에서 찾을 수 있는 문자열 필드를 위한 <code>fn</code>을 호출하는 함수 <code>walk(x interface{}, fn func(string))</code>을 작성하라. 난이도: 재귀적</p>
 </blockquote>
@@ -157,7 +207,17 @@
 <blockquote>
 <p>컴퓨팅에서 Reflection이란 자신의 구조, 특히 타입을 통해서 검토할 수있는 프로그램의 능력을 말한다. 이것은 메타프로그램의 한 형태이다. 이것은 또한 혼란의 큰 원인이 되기도 한다.</p>
 </blockquote>
-<p>From <a href="https://blog.golang.org/laws-of-reflection">The Go Blog: Reflection</a></p>
+<p>From <a 
+    href="https://blog.golang.org/laws-of-reflection"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    The Go Blog: Reflection
+</a></p>
 <h2 id="interface-란-무엇인가"><code>interface</code> 란 무엇인가?</h2>
 <p>우리는 Go에서 함수가 <code>string</code>, <code>int</code> 그리고 우리의 자료형인 <code>BackAccount</code>와 같이 알려진 자료형으로 동작한다는 측면에서 type-safety의 편리성을 느껴왔다.</p>
 <p>이것은 우리가 쉽게 문서화 할 수 있다는 것과 만약 함수에 잘못된 자료형을 전달하는 경우, 컴파일러가 이를 알아 낼 것임을 의미한다.</p>
@@ -177,18 +237,18 @@
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">TestWalk</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="nx">expected</span> <span class="o">:=</span> <span class="s">&#34;Chris&#34;</span>
-    <span class="kd">var</span> <span class="nx">got</span> <span class="p">[]</span><span class="kt">string</span>
+    <span class="kd">var</span> <span class="nx">got</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span>
 
     <span class="nx">x</span> <span class="o">:=</span> <span class="kd">struct</span> <span class="p">{</span>
         <span class="nx">Name</span> <span class="kt">string</span>
-    <span class="p">}{</span><span class="nx">expected</span><span class="p">}</span>
+    <span class="p">}</span><span class="p">{</span><span class="nx">expected</span><span class="p">}</span>
 
     <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">got</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">input</span><span class="p">)</span>
-    <span class="p">})</span>
+    <span class="p">}</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">got</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="p">{</span>
-        <span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;wrong number of function calls, got %d want %d&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">got</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;wrong number of function calls, got %d want %d&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">got</span><span class="p">)</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><ul>
@@ -200,7 +260,7 @@
 <pre><code>./reflection_test.go:21:2: undefined: walk
 </code></pre><h2 id="테스트를-실행할-최소한의-코드를-작성하고-테스트-실패-결과를-확인하기">테스트를 실행할 최소한의 코드를 작성하고 테스트 실패 결과를 확인하기</h2>
 <p><code>walk</code>에 대한 정의가 필요하다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
 
 <span class="p">}</span>
 </code></pre></div><p>테스트를 다시 수행한다.</p>
@@ -210,14 +270,14 @@
 FAIL
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기">테스트를 통과하는 최소한의 코드 작성하기</h2>
 <p>테스트 통과를 위해 아무 문자열을 통해 호출 할 수 있다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nf">fn</span><span class="p">(</span><span class="s">&#34;I still can&#39;t believe South Korea beat Germany 2-0 to put them last in their group&#34;</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div><p>이제 테스트는 통과할 것이다. 이제 필요한 다음 일은 <code>fn</code>이 어떤 것과 호출될 것인지 조금 더 정확하게 선언하는 것이다.</p>
 <h2 id="테스트부터-작성해보기">테스트부터 작성해보기</h2>
 <p><code>fn</code>에 전달된 문자열이 올바른지 확인하기 위해 다음의 코드를 추가한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">if</span> <span class="nx">got</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="nx">expected</span> <span class="p">{</span>
-    <span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;got %q, want %q&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">expected</span><span class="p">)</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;got %q, want %q&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="p">,</span> <span class="nx">expected</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div><h2 id="테스트-실행해보기-1">테스트 실행해보기</h2>
 <pre><code>=== RUN   TestWalk
@@ -225,14 +285,24 @@ FAIL
     reflection_test.go:23: got 'I still can't believe South Korea beat Germany 2-0 to put them last in their group', want 'Chris'
 FAIL
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기-1">테스트를 통과하는 최소한의 코드 작성하기</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
     <span class="nx">field</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+    <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div><p>이 코드는 매우 위험하고 단순하지만, 우리가 &ldquo;빨간색&rdquo;(테스트 실패)에 있을 때 우리의 목표는 가능한 최소한의 코드를 작성하는 것임을 기억한다. 그런 다음 우리의 우려를 해결하기 위해 더 많은 테스트를 작성한다.</p>
 <p>우리는 <code>x</code>와 그 속성을 알아보기 위해 reflection을 이용한다.</p>
-<p><a href="https://godoc.org/reflect">reflect 패키지</a>는 주어진 변수의 <code>값</code>을 전달하는 <code>ValueOf</code>함수를 갖는다. 이것은 우리에게 값을 알아볼 방법을 제공하고 우리가 그 다음 줄에 사용한 것처럼 그 값의 필드까지도 포함한다.</p>
+<p><a 
+    href="https://godoc.org/reflect"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    reflect 패키지
+</a>는 주어진 변수의 <code>값</code>을 전달하는 <code>ValueOf</code>함수를 갖는다. 이것은 우리에게 값을 알아볼 방법을 제공하고 우리가 그 다음 줄에 사용한 것처럼 그 값의 필드까지도 포함한다.</p>
 <p>그런 다음 전달된 값에 대한 매우 낙관적인 가정을 한다.</p>
 <ul>
 <li>첫번째 필드를 찾아보고, panic을 일으킬 필드는 없을지도 모른다.</li>
@@ -244,31 +314,31 @@ FAIL
 <p>우리는 새로운 시나리오를 더 쉽게 테스트하기 위해 테스트를 표 기반 테스트로 리팩토링해야 한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">TestWalk</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
 
-    <span class="nx">cases</span> <span class="o">:=</span> <span class="p">[]</span><span class="kd">struct</span><span class="p">{</span>
+    <span class="nx">cases</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kd">struct</span><span class="p">{</span>
         <span class="nx">Name</span> <span class="kt">string</span>
-        <span class="nx">Input</span> <span class="kd">interface</span><span class="p">{}</span>
-        <span class="nx">ExpectedCalls</span> <span class="p">[]</span><span class="kt">string</span>
+        <span class="nx">Input</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span>
+        <span class="nx">ExpectedCalls</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span>
     <span class="p">}</span> <span class="p">{</span>
         <span class="p">{</span>
             <span class="s">&#34;Struct with one string field&#34;</span><span class="p">,</span>
             <span class="kd">struct</span> <span class="p">{</span>
                 <span class="nx">Name</span> <span class="kt">string</span>
-            <span class="p">}{</span> <span class="s">&#34;Chris&#34;</span><span class="p">},</span>
-            <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">},</span>
-        <span class="p">},</span>
+            <span class="p">}</span><span class="p">{</span> <span class="s">&#34;Chris&#34;</span><span class="p">}</span><span class="p">,</span>
+            <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">}</span><span class="p">,</span>
+        <span class="p">}</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">test</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">cases</span> <span class="p">{</span>
         <span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">test</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">got</span> <span class="p">[]</span><span class="kt">string</span>
+            <span class="kd">var</span> <span class="nx">got</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span>
             <span class="nf">walk</span><span class="p">(</span><span class="nx">test</span><span class="p">.</span><span class="nx">Input</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">got</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">input</span><span class="p">)</span>
-            <span class="p">})</span>
+            <span class="p">}</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="p">!</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">DeepEqual</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">test</span><span class="p">.</span><span class="nx">ExpectedCalls</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;got %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">test</span><span class="p">.</span><span class="nx">ExpectedCalls</span><span class="p">)</span>
             <span class="p">}</span>
-        <span class="p">})</span>
+        <span class="p">}</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>이제 우리는 하나 이상의 문자열 필드를 가질 때 어떤 일이 일어나는 지에 대한 시나리오를 쉽게 추가할 수 있다.</p>
@@ -279,20 +349,20 @@ FAIL
     <span class="kd">struct</span> <span class="p">{</span>
         <span class="nx">Name</span> <span class="kt">string</span>
         <span class="nx">City</span> <span class="kt">string</span>
-    <span class="p">}{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
-    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
+    <span class="p">}</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
+    <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
 <span class="p">}</span>
 </code></pre></div><h2 id="테스트-실행해보기-2">테스트 실행해보기</h2>
 <pre><code>=== RUN   TestWalk/Struct_with_two_string_fields
     --- FAIL: TestWalk/Struct_with_two_string_fields (0.00s)
         reflection_test.go:40: got [Chris], want [Chris London]
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기-2">테스트를 통과하는 최소한의 코드 작성하기</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
         <span class="nx">field</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
-        <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+        <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p><code>val</code>은 값 내부 필드의 수를 반환하는 <code>NumField</code>메소드를 갖는다. 이것을 통해 필드를 순회하여 테스트에 통과하는 <code>fn</code>을 호출할 수 있다.</p>
@@ -306,27 +376,37 @@ FAIL
     <span class="kd">struct</span> <span class="p">{</span>
         <span class="nx">Name</span> <span class="kt">string</span>
         <span class="nx">Age</span>  <span class="kt">int</span>
-    <span class="p">}{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="mi">33</span><span class="p">},</span>
-    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">},</span>
-<span class="p">},</span>
+    <span class="p">}</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="mi">33</span><span class="p">}</span><span class="p">,</span>
+    <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">}</span><span class="p">,</span>
+<span class="p">}</span><span class="p">,</span>
 </code></pre></div><h2 id="테스트-실행해보기-3">테스트 실행해보기</h2>
 <pre><code>=== RUN   TestWalk/Struct_with_non_string_field
 --- FAIL: TestWalk/Struct_with_non_string_field (0.00s)
     reflection_test.go:46: got [Chris &lt;int Value&gt;], want [Chris]
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기-3">테스트를 통과하는 최소한의 코드 작성하기</h2>
 <p>이제 필드의 자료형이 <code>string</code>인지 확인할 필요가 있다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
         <span class="nx">field</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span> <span class="p">{</span>
-            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span> <span class="p">{</span>
+            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div><p><a href="https://godoc.org/reflect#Kind">Kind</a>를 통해 확인할 수 있다.</p>
+</code></pre></div><p><a 
+    href="https://godoc.org/reflect#Kind"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    Kind
+</a>를 통해 확인할 수 있다.</p>
 <h2 id="리팩터링-하기-2">리팩터링 하기</h2>
 <p>지금까지는 코드가 충분히 적당한 것으로 보인다.</p>
 <p>다음 시나리오는 만약 <code>struct</code>가 &ldquo;flat&rdquo; 하지 않은 경우이다. 다른 말로, 만약 <code>struct</code>가 nested 필드를 갖는다면 어떻게 되는지이다.</p>
@@ -340,13 +420,23 @@ FAIL
             <span class="nx">Age</span>  <span class="kt">int</span>
             <span class="nx">City</span> <span class="kt">string</span>
         <span class="p">}</span>
-    <span class="p">}{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="p">}</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="kd">struct</span> <span class="p">{</span>
         <span class="nx">Age</span>  <span class="kt">int</span>
         <span class="nx">City</span> <span class="kt">string</span>
-    <span class="p">}{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}},</span>
-    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
-<span class="p">},</span>
-</code></pre></div><p>하지만 우리가 내부 익명 구조체 구문을 사용할 때 약간의 혼란이 있을 수 있다. <a href="https://github.com/golang/go/issues/12854">여기에 해당 구문을 더 훌륭하게 만들 제안이 있다.</a></p>
+    <span class="p">}</span><span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">}</span><span class="p">,</span>
+    <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
+<span class="p">}</span><span class="p">,</span>
+</code></pre></div><p>하지만 우리가 내부 익명 구조체 구문을 사용할 때 약간의 혼란이 있을 수 있다. <a 
+    href="https://github.com/golang/go/issues/12854"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    여기에 해당 구문을 더 훌륭하게 만들 제안이 있다.
+</a></p>
 <p>이제 이 시나리오를 위한 알려진 타입을 만들고 테스트에서 참조하는 방식으로 변경해보자. 테스트를 위한 우리의 코드가 테스트 외부에 있다는 점에서 약간의 기만이 있지만, 독자들은 초기화를 통해 <code>구조체</code>의 구조를 추론할 수 있어야 한다.</p>
 <p>다음의 타입 선언을 테스트 파일 어딘가에 추가해보자.</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Person</span> <span class="kd">struct</span> <span class="p">{</span>
@@ -363,44 +453,44 @@ FAIL
     <span class="s">&#34;Nested fields&#34;</span><span class="p">,</span>
     <span class="nx">Person</span><span class="p">{</span>
         <span class="s">&#34;Chris&#34;</span><span class="p">,</span>
-        <span class="nx">Profile</span><span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
-    <span class="p">},</span>
-    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
-<span class="p">},</span>
+        <span class="nx">Profile</span><span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
+<span class="p">}</span><span class="p">,</span>
 </code></pre></div><h2 id="테스트-실행해보기-4">테스트 실행해보기</h2>
 <pre><code>=== RUN   TestWalk/Nested_fields
     --- FAIL: TestWalk/Nested_fields (0.00s)
         reflection_test.go:54: got [Chris], want [Chris London]
 </code></pre><p>문제는 타입의 계층 구조 중 첫번째 수준의 필드에서만 반복이된다는 것이다.</p>
 <h2 id="테스트를-통과하는-최소한의-코드-작성하기-4">테스트를 통과하는 최소한의 코드 작성하기</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
         <span class="nx">field</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span> <span class="p">{</span>
-            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span> <span class="p">{</span>
+            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
         <span class="p">}</span>
 
-        <span class="k">if</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span> <span class="p">{</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span> <span class="p">{</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>해결 방법은 꽤 단순하다. <code>Kind</code>를 통해 다시 한번 검사하고 만약 그것이 <code>구조체</code> 라면 우리는 단지 내부에서 <code>walk</code>를 다시 호출하면 된다.</p>
 <h2 id="리팩터링">리팩터링</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
         <span class="nx">field</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
 
-        <span class="k">switch</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
         <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -412,56 +502,56 @@ FAIL
     <span class="s">&#34;Pointers to things&#34;</span><span class="p">,</span>
     <span class="o">&amp;</span><span class="nx">Person</span><span class="p">{</span>
         <span class="s">&#34;Chris&#34;</span><span class="p">,</span>
-        <span class="nx">Profile</span><span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
-    <span class="p">},</span>
-    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
-<span class="p">},</span>
+        <span class="nx">Profile</span><span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Chris&#34;</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
+<span class="p">}</span><span class="p">,</span>
 </code></pre></div><h2 id="테스트-실행해보기-5">테스트 실행해보기</h2>
 <pre><code>=== RUN   TestWalk/Pointers_to_things
 panic: reflect: call of reflect.Value.NumField on ptr Value [recovered]
     panic: reflect: call of reflect.Value.NumField on ptr Value
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기-5">테스트를 통과하는 최소한의 코드 작성하기</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Ptr</span> <span class="p">{</span>
-        <span class="nx">val</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Elem</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Ptr</span> <span class="p">{</span>
+        <span class="nx">val</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Elem</span><span class="p">(</span><span class="p">)</span>
     <span class="p">}</span>
 
-    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
         <span class="nx">field</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
 
-        <span class="k">switch</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
         <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>포인터인 <code>값</code>에서는 <code>NumField</code>를 사용할 수 없다. 우리는 그전에 드러나지 않은 값을 추출할 필요가 있고 그것은 <code>Elem()</code>을 통해 할 수 있다.</p>
 <h2 id="리팩터링-1">리팩터링</h2>
 <p>이제 주어진 함수로 주어진 <code>interface{}</code>로부터 <code>refect.Value</code>를 추출하는 기능을 encapsulate 해보자.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
         <span class="nx">field</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
 
-        <span class="k">switch</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
         <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{})</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span> <span class="p">{</span>
+<span class="kd">func</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nf">ValueOf</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Ptr</span> <span class="p">{</span>
-        <span class="nx">val</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Elem</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Ptr</span> <span class="p">{</span>
+        <span class="nx">val</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Elem</span><span class="p">(</span><span class="p">)</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="nx">val</span>
@@ -475,12 +565,12 @@ panic: reflect: call of reflect.Value.NumField on ptr Value [recovered]
 <h2 id="테스트부터-작성하기-4">테스트부터 작성하기</h2>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="p">{</span>
     <span class="s">&#34;Slices&#34;</span><span class="p">,</span>
-    <span class="p">[]</span><span class="nx">Profile</span> <span class="p">{</span>
-        <span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
-        <span class="p">{</span><span class="mi">34</span><span class="p">,</span> <span class="s">&#34;Reykjavík&#34;</span><span class="p">},</span>
-    <span class="p">},</span>
-    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;London&#34;</span><span class="p">,</span> <span class="s">&#34;Reykjavík&#34;</span><span class="p">},</span>
-<span class="p">},</span>
+    <span class="p">[</span><span class="p">]</span><span class="nx">Profile</span> <span class="p">{</span>
+        <span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
+        <span class="p">{</span><span class="mi">34</span><span class="p">,</span> <span class="s">&#34;Reykjavík&#34;</span><span class="p">}</span><span class="p">,</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;London&#34;</span><span class="p">,</span> <span class="s">&#34;Reykjavík&#34;</span><span class="p">}</span><span class="p">,</span>
+<span class="p">}</span><span class="p">,</span>
 </code></pre></div><h2 id="테스트-실행해보기-6">테스트 실행해보기</h2>
 <pre><code>=== RUN   TestWalk/Slices
 panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
@@ -488,24 +578,24 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
 </code></pre><h2 id="테스트를-실행할-최소한의-코드를-작성하고-테스트-실패-결과를-확인하기-1">테스트를 실행할 최소한의 코드를 작성하고 테스트 실패 결과를 확인하기</h2>
 <p>이것은 이전의 포인터 시나리오와 비슷하다. 우리는 <code>reflect.Value</code>에서 <code>NumField</code>를 호출 하려하지만, 그것은 구조체가 아니기 때문에 값이 없다.</p>
 <h2 id="테스트를-통과하는-최소한의-코드-작성하기-6">테스트를 통과하는 최소한의 코드 작성하기</h2>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span> <span class="p">{</span>
-        <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="o">==</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
         <span class="k">return</span>
     <span class="p">}</span>
 
-    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
         <span class="nx">field</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
 
-        <span class="k">switch</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="nx">field</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+            <span class="nf">fn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
         <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -518,43 +608,43 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
 </ul>
 <p>현재 우리의 코드는 그렇게 동작하지만, 제대로 reflect하고 있지는 않다. 그래서 그것이 슬라이스(코드의 남은 실행을 멈출 수 있는 <code>return</code>이 있는)인지를 처음에 검사하고 슬라이스가 아니라면 구조체라고 가정한다.</p>
 <p>이제 다시 코드를 다시 수정해서 타입을 먼저 확인하고 작업을 진행해본다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
-    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-        <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+        <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span><span class="p">:</span>
-        <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+        <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>훨씬 좋아보인다. 만약 구조체 혹은 슬라이스라면 우리는 각각 <code>walk</code>를 호출하며 그 값을 순회한다. 그렇지 않고 만약 <code>relect.String</code>이라면 <code>fn</code>을 호출하면 된다.</p>
 <p>아직도 더 개선할 부분이 있어보인다. 필드/값을 순회하는 연산을 반복적으로 하고 <code>walk</code>함수를 호출하는데, 이것은 개념적으로 모두 같은 부분이다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
     <span class="nx">numberOfValues</span> <span class="o">:=</span> <span class="mi">0</span>
     <span class="kd">var</span> <span class="nx">getField</span> <span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span>
 
-    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">()</span>
+        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span>
         <span class="nx">getField</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nx">Field</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span><span class="p">:</span>
-        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span>
+        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">(</span><span class="p">)</span>
         <span class="nx">getField</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nx">Index</span>
     <span class="p">}</span>
 
     <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span> <span class="nx">numberOfValues</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-        <span class="nf">walk</span><span class="p">(</span><span class="nf">getField</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+        <span class="nf">walk</span><span class="p">(</span><span class="nf">getField</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>만약 <code>값</code>이 <code>reflect.String</code>이라면 평소처럼 그냥 <code>fn</code>을 호출한다.</p>
@@ -570,36 +660,36 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="p">{</span>
     <span class="s">&#34;Arrays&#34;</span><span class="p">,</span>
     <span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="nx">Profile</span> <span class="p">{</span>
-        <span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">},</span>
-        <span class="p">{</span><span class="mi">34</span><span class="p">,</span> <span class="s">&#34;Reykjavík&#34;</span><span class="p">},</span>
-    <span class="p">},</span>
-    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;London&#34;</span><span class="p">,</span> <span class="s">&#34;Reykjavík&#34;</span><span class="p">},</span>
-<span class="p">},</span>
+        <span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;London&#34;</span><span class="p">}</span><span class="p">,</span>
+        <span class="p">{</span><span class="mi">34</span><span class="p">,</span> <span class="s">&#34;Reykjavík&#34;</span><span class="p">}</span><span class="p">,</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;London&#34;</span><span class="p">,</span> <span class="s">&#34;Reykjavík&#34;</span><span class="p">}</span><span class="p">,</span>
+<span class="p">}</span><span class="p">,</span>
 </code></pre></div><h2 id="테스트-실행해보기-7">테스트 실행해보기</h2>
 <pre><code>=== RUN   TestWalk/Arrays
     --- FAIL: TestWalk/Arrays (0.00s)
         reflection_test.go:78: got [], want [London Reykjavík]
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기-7">테스트를 통과하는 최소한의 코드 작성하기</h2>
 <p>배열은 슬라이스와 동일하게 처리될 수 있으므로 그냥 콤마와 함께 케이스를 추가한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
     <span class="nx">numberOfValues</span> <span class="o">:=</span> <span class="mi">0</span>
     <span class="kd">var</span> <span class="nx">getField</span> <span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span>
 
-    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">()</span>
+        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span>
         <span class="nx">getField</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nx">Field</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span><span class="p">,</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Array</span><span class="p">:</span>
-        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span>
+        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">(</span><span class="p">)</span>
         <span class="nx">getField</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nx">Index</span>
     <span class="p">}</span>
 
     <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span> <span class="nx">numberOfValues</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-        <span class="nf">walk</span><span class="p">(</span><span class="nf">getField</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+        <span class="nf">walk</span><span class="p">(</span><span class="nf">getField</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>다음 우리가 다룰 타입은 <code>map</code>이다.</p>
@@ -609,38 +699,38 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
     <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
         <span class="s">&#34;Foo&#34;</span><span class="p">:</span> <span class="s">&#34;Bar&#34;</span><span class="p">,</span>
         <span class="s">&#34;Baz&#34;</span><span class="p">:</span> <span class="s">&#34;Boz&#34;</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Bar&#34;</span><span class="p">,</span> <span class="s">&#34;Boz&#34;</span><span class="p">},</span>
-<span class="p">},</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Bar&#34;</span><span class="p">,</span> <span class="s">&#34;Boz&#34;</span><span class="p">}</span><span class="p">,</span>
+<span class="p">}</span><span class="p">,</span>
 </code></pre></div><h2 id="테스트-실행해보기-8">테스트 실행해보기</h2>
 <pre><code>=== RUN   TestWalk/Maps
     --- FAIL: TestWalk/Maps (0.00s)
         reflection_test.go:86: got [], want [Bar Boz]
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기-8">테스트를 통과하는 최소한의 코드 작성하기</h2>
 <p>조금만 추상적으로 생각해보면 <code>map</code>은 <code>struct</code>와 굉장히 유사하다는 것을 알 수 있다. 단지 컴파일 과정에서 키들을 알 수 없다는 것 뿐이다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
     <span class="nx">numberOfValues</span> <span class="o">:=</span> <span class="mi">0</span>
     <span class="kd">var</span> <span class="nx">getField</span> <span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span>
 
-    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">()</span>
+        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span>
         <span class="nx">getField</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nx">Field</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span><span class="p">,</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Array</span><span class="p">:</span>
-        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">()</span>
+        <span class="nx">numberOfValues</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">(</span><span class="p">)</span>
         <span class="nx">getField</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nx">Index</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Map</span><span class="p">:</span>
-        <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">val</span><span class="p">.</span><span class="nf">MapKeys</span><span class="p">()</span> <span class="p">{</span>
-            <span class="nf">walk</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">MapIndex</span><span class="p">(</span><span class="nx">key</span><span class="p">).</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+        <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">val</span><span class="p">.</span><span class="nf">MapKeys</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">walk</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">MapIndex</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 
     <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span> <span class="nx">numberOfValues</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-        <span class="nf">walk</span><span class="p">(</span><span class="nf">getField</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+        <span class="nf">walk</span><span class="p">(</span><span class="nf">getField</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>하지만 설계상 인덱스별로 맵의 값을 가지고 올 수 없다. 오직 <em>키</em> 를 통해 가능하므로 애석하게도 추상화을 깨뜨린 것이다.</p>
@@ -648,27 +738,27 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
 <p>어떤가? 괜찮은 추상화였다고 생각했었는데 이제 우리의 코드는 약간 찌질하게 느껴진다.</p>
 <p><em>괜찮다!</em>  리팩터링은 여정이고 때로는 실수를 하기도 한다. TDD의 중요한 점은 이런 것들을 시험해 볼 수 잇는 자유를 준다는 것이다.</p>
 <p>테스트를 통해 뒷받침되는 작은 단계를 밟는 것은 결코 돌이킬 수 없는 상황이 아니다. 리팩터링 전의 상태로 되돌려보자.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
     <span class="nx">walkValue</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">value</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nf">walk</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+        <span class="nf">walk</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
     <span class="p">}</span>
 
-    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+        <span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-        <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-            <span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+        <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+            <span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span><span class="p">,</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Array</span><span class="p">:</span>
-        <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-            <span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+        <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="p">&lt;</span><span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+            <span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Map</span><span class="p">:</span>
-        <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">val</span><span class="p">.</span><span class="nf">MapKeys</span><span class="p">()</span> <span class="p">{</span>
-            <span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">MapIndex</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span>
+        <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">val</span><span class="p">.</span><span class="nf">MapKeys</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">MapIndex</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span><span class="p">)</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -682,17 +772,17 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
         <span class="s">&#34;Baz&#34;</span><span class="p">:</span> <span class="s">&#34;Boz&#34;</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="kd">var</span> <span class="nx">got</span> <span class="p">[]</span><span class="kt">string</span>
+    <span class="kd">var</span> <span class="nx">got</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span>
     <span class="nf">walk</span><span class="p">(</span><span class="nx">aMap</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">got</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">input</span><span class="p">)</span>
-    <span class="p">})</span>
+    <span class="p">}</span><span class="p">)</span>
 
     <span class="nf">assertContains</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="s">&#34;Bar&#34;</span><span class="p">)</span>
     <span class="nf">assertContains</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="s">&#34;Boz&#34;</span><span class="p">)</span>
-<span class="p">})</span>
+<span class="p">}</span><span class="p">)</span>
 </code></pre></div><p><code>assertContains</code>의 정의는 아래와 같다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">assertContains</span><span class="p">(</span><span class="nx">t</span> <span class="nx">testing</span><span class="p">.</span><span class="nx">TB</span><span class="p">,</span> <span class="nx">haystack</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">needle</span> <span class="kt">string</span><span class="p">)</span>  <span class="p">{</span>
-    <span class="nx">t</span><span class="p">.</span><span class="nf">Helper</span><span class="p">()</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">assertContains</span><span class="p">(</span><span class="nx">t</span> <span class="nx">testing</span><span class="p">.</span><span class="nx">TB</span><span class="p">,</span> <span class="nx">haystack</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">needle</span> <span class="kt">string</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nf">Helper</span><span class="p">(</span><span class="p">)</span>
     <span class="nx">contains</span> <span class="o">:=</span> <span class="kc">false</span>
     <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">x</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">haystack</span> <span class="p">{</span>
         <span class="k">if</span> <span class="nx">x</span> <span class="o">==</span> <span class="nx">needle</span> <span class="p">{</span>
@@ -708,111 +798,111 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="s">&#34;with channels&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
 		<span class="nx">aChannel</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">Profile</span><span class="p">)</span>
 
-		<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
 			<span class="nx">aChannel</span> <span class="o">&lt;-</span> <span class="nx">Profile</span><span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;Berlin&#34;</span><span class="p">}</span>
 			<span class="nx">aChannel</span> <span class="o">&lt;-</span> <span class="nx">Profile</span><span class="p">{</span><span class="mi">34</span><span class="p">,</span> <span class="s">&#34;Katowice&#34;</span><span class="p">}</span>
 			<span class="nb">close</span><span class="p">(</span><span class="nx">aChannel</span><span class="p">)</span>
-		<span class="p">}()</span>
+		<span class="p">}</span><span class="p">(</span><span class="p">)</span>
 
-		<span class="kd">var</span> <span class="nx">got</span> <span class="p">[]</span><span class="kt">string</span>
-		<span class="nx">want</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Berlin&#34;</span><span class="p">,</span> <span class="s">&#34;Katowice&#34;</span><span class="p">}</span>
+		<span class="kd">var</span> <span class="nx">got</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span>
+		<span class="nx">want</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Berlin&#34;</span><span class="p">,</span> <span class="s">&#34;Katowice&#34;</span><span class="p">}</span>
 
 		<span class="nf">walk</span><span class="p">(</span><span class="nx">aChannel</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
 			<span class="nx">got</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">input</span><span class="p">)</span>
-		<span class="p">})</span>
+		<span class="p">}</span><span class="p">)</span>
 
 		<span class="k">if</span> <span class="p">!</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">DeepEqual</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">want</span><span class="p">)</span> <span class="p">{</span>
 			<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;got %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">want</span><span class="p">)</span>
 		<span class="p">}</span>
-	<span class="p">})</span>
+	<span class="p">}</span><span class="p">)</span>
 </code></pre></div><h2 id="테스트-실행해보기-9">테스트 실행해보기</h2>
 <pre><code>--- FAIL: TestWalk (0.00s)
     --- FAIL: TestWalk/with_channels (0.00s)
         reflection_test.go:115: got [], want [Berlin Katowice]
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기-9">테스트를 통과하는 최소한의 코드 작성하기</h2>
 <p>채널이 Recv()로 종료되기 전까지 채널을 통해 전달된 모든 값을 순회할 수 있다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
 	<span class="nx">walkValue</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">value</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nf">walk</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+		<span class="nf">walk</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
 	<span class="p">}</span>
 
-	<span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-		<span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+		<span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span><span class="p">,</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Array</span><span class="p">:</span>
-		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Map</span><span class="p">:</span>
-		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">val</span><span class="p">.</span><span class="nf">MapKeys</span><span class="p">()</span> <span class="p">{</span>
-			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">MapIndex</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span>
+		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">val</span><span class="p">.</span><span class="nf">MapKeys</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">MapIndex</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Chan</span><span class="p">:</span>
-		<span class="k">for</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Recv</span><span class="p">();</span> <span class="nx">ok</span><span class="p">;</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Recv</span><span class="p">()</span> <span class="p">{</span>
-			<span class="nf">walk</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+		<span class="k">for</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Recv</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">ok</span><span class="p">;</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Recv</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nf">walk</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>다음 우리가 다룰 타입은 <code>func</code>이다.</p>
 <h2 id="테스트부터-작성하기-8">테스트부터 작성하기</h2>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">t</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="s">&#34;with function&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">testing</span><span class="p">.</span><span class="nx">T</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">aFunction</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">()</span> <span class="p">(</span><span class="nx">Profile</span><span class="p">,</span> <span class="nx">Profile</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">return</span> <span class="nx">Profile</span><span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;Berlin&#34;</span><span class="p">},</span> <span class="nx">Profile</span><span class="p">{</span><span class="mi">34</span><span class="p">,</span> <span class="s">&#34;Katowice&#34;</span><span class="p">}</span>
+		<span class="nx">aFunction</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="p">)</span> <span class="p">(</span><span class="nx">Profile</span><span class="p">,</span> <span class="nx">Profile</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">Profile</span><span class="p">{</span><span class="mi">33</span><span class="p">,</span> <span class="s">&#34;Berlin&#34;</span><span class="p">}</span><span class="p">,</span> <span class="nx">Profile</span><span class="p">{</span><span class="mi">34</span><span class="p">,</span> <span class="s">&#34;Katowice&#34;</span><span class="p">}</span>
 		<span class="p">}</span>
 
-		<span class="kd">var</span> <span class="nx">got</span> <span class="p">[]</span><span class="kt">string</span>
-		<span class="nx">want</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Berlin&#34;</span><span class="p">,</span> <span class="s">&#34;Katowice&#34;</span><span class="p">}</span>
+		<span class="kd">var</span> <span class="nx">got</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span>
+		<span class="nx">want</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Berlin&#34;</span><span class="p">,</span> <span class="s">&#34;Katowice&#34;</span><span class="p">}</span>
 
 		<span class="nf">walk</span><span class="p">(</span><span class="nx">aFunction</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
 			<span class="nx">got</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">input</span><span class="p">)</span>
-		<span class="p">})</span>
+		<span class="p">}</span><span class="p">)</span>
 
 		<span class="k">if</span> <span class="p">!</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">DeepEqual</span><span class="p">(</span><span class="nx">got</span><span class="p">,</span> <span class="nx">want</span><span class="p">)</span> <span class="p">{</span>
 			<span class="nx">t</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;got %v, want %v&#34;</span><span class="p">,</span> <span class="nx">got</span><span class="p">,</span> <span class="nx">want</span><span class="p">)</span>
 		<span class="p">}</span>
-	<span class="p">})</span>
+	<span class="p">}</span><span class="p">)</span>
 </code></pre></div><h2 id="테스트-실행해보기-10">테스트 실행해보기</h2>
 <pre><code>--- FAIL: TestWalk (0.00s)
     --- FAIL: TestWalk/with_function (0.00s)
         reflection_test.go:132: got [], want [Berlin Katowice]
 </code></pre><h2 id="테스트를-통과하는-최소한의-코드-작성하기-10">테스트를 통과하는 최소한의 코드 작성하기</h2>
 <p>인자값을 갖는 함수는 이 시나리오 상 알맞지 않다고 보인다. 하지만 우리는 임의의 리턴값도 허용해야 한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{},</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">walk</span><span class="p">(</span><span class="nx">x</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">fn</span> <span class="kd">func</span><span class="p">(</span><span class="nx">input</span> <span class="kt">string</span><span class="p">)</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">val</span> <span class="o">:=</span> <span class="nf">getValue</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 
 	<span class="nx">walkValue</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">value</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nf">walk</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+		<span class="nf">walk</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
 	<span class="p">}</span>
 
-	<span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">switch</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Kind</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">String</span><span class="p">:</span>
-		<span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">())</span>
+		<span class="nf">fn</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Struct</span><span class="p">:</span>
-		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">NumField</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Field</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Slice</span><span class="p">,</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Array</span><span class="p">:</span>
-		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
-			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Len</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Map</span><span class="p">:</span>
-		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">val</span><span class="p">.</span><span class="nf">MapKeys</span><span class="p">()</span> <span class="p">{</span>
-			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">MapIndex</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span>
+		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">val</span><span class="p">.</span><span class="nf">MapKeys</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nf">walkValue</span><span class="p">(</span><span class="nx">val</span><span class="p">.</span><span class="nf">MapIndex</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Chan</span><span class="p">:</span>
-		<span class="k">for</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Recv</span><span class="p">();</span> <span class="nx">ok</span><span class="p">;</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Recv</span><span class="p">()</span> <span class="p">{</span>
-			<span class="nf">walk</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+		<span class="k">for</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Recv</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">ok</span><span class="p">;</span> <span class="nx">v</span><span class="p">,</span> <span class="nx">ok</span> <span class="p">=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Recv</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nf">walk</span><span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="k">case</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Func</span><span class="p">:</span>
 		<span class="nx">valFnResult</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nf">Call</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
 		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">res</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">valFnResult</span> <span class="p">{</span>
-			<span class="nf">walk</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(),</span> <span class="nx">fn</span><span class="p">)</span>
+			<span class="nf">walk</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nf">Interface</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
 <span class="p">}</span>
@@ -821,7 +911,17 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
 <li><code>reflect</code>패키지의 몇가지 개념을 설명했다.</li>
 <li>임의의 데이터 구조를 살펴보기 위해 재귀를 사용했다.</li>
 <li>나쁜 리팩토링을 경험했지만 이에 대해 크게 당황하지 않았다. 테스트를 반복적으로 하는 것은 그리 큰 일이 아니다.</li>
-<li>이 글은 reflection에 작은 관점만을 담고 있다. <a href="https://blog.golang.org/laws-of-reflection">Go 블로그에 더 세부적인 내용을 담고 있는 좋은 글들이 있다.</a></li>
+<li>이 글은 reflection에 작은 관점만을 담고 있다. <a 
+    href="https://blog.golang.org/laws-of-reflection"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    Go 블로그에 더 세부적인 내용을 담고 있는 좋은 글들이 있다.
+</a></li>
 <li>이제 reflection에 대해 알았으니, 이것을 사용하지 않도록 최선을 다한다.</li>
 </ul>
 
@@ -853,6 +953,10 @@ panic: reflect: call of reflect.Value.NumField on slice Value [recovered]
 
     
     
+    
+        <li>
+            <a href="/posts/go-benchmark-test-usage/">[Go] Benchmark Test 사용하기<aside class="dates">May 3 2021</aside></a>
+        </li>
     
         <li>
             <a href="/posts/github-contribution-not-showing/">[Github] Contribution이 Graph에 반영되지 않은 경우<aside class="dates">Apr 21 2021</aside></a>

@@ -18,7 +18,7 @@
 
     
 
-		<meta name="generator" content="Hugo 0.80.0" />
+		<meta name="generator" content="Hugo 0.63.2" />
 		<title>[Github] Contribution이 Graph에 반영되지 않은 경우 &middot; zajan&#39;s devnote</title>
 		<link rel="shortcut icon" href="https://www.zajan-dev.com/images/favicon.ico">
 		<link rel="stylesheet" href="https://www.zajan-dev.com/css/style.css">
@@ -94,7 +94,7 @@
       <ul>
         <li><a href="#1-생성된지-24시간이-지나지-않은-commit">1. 생성된지 24시간이 지나지 않은 commit</a></li>
         <li><a href="#2-로컬-commit-이메일이-계정에-연결되지-않은-경우">2. 로컬 commit 이메일이 계정에 연결되지 않은 경우</a></li>
-        <li><a href="#3-default-master-main-이나-gh-pages-브랜치로-만들어진-commit이-아닌-경우">3. default (master, main) 이나 <code>gh-pages</code> 브랜치로 만들어진 commit이 아닌 경우</a></li>
+        <li><a href="#3-default-master-main-이나-gh-pages-브랜치로-만들어진-commit이-아닌-경우">3. default (master, main) 이나 gh-pages 브랜치로 만들어진 commit이 아닌 경우</a></li>
         <li><a href="#4-fork-된-레파지토리에서-생성된-commit">4. fork 된 레파지토리에서 생성된 commit</a></li>
       </ul>
     </li>
@@ -109,7 +109,17 @@
 <p>가뭄에 콩 나듯 보이던 내 소중한 잔디들. 최근 블로그, 개인프로젝트, 이직 등의 이유로 github 활동을 다시 시작했다. 그런데 분명 commit을 했는데도 contribution에 반영이 안되는 경우가 종종 발생했다. 처음엔 집계가 되는 시간이 있나보다하고 넘어갔었는데 시간이 지나도 변하지 않아 문제 원인을 찾아보았다.</p>
 <p>이유는 바로, <strong>로컬 상에 git 사용자 이메일 설정을 해놓지 않아서</strong>였다. 정확히는 git commit을 날리는 local 상 사용자 이메일 설정이 Github계정의 이메일과 일치하지 않아서였다.</p>
 <p>맥북을 교체하고 git 기본 설정을 제대로 해주지 않아 맥북으로 작업을 할때는 Contribution에 반영이 되지 않았던 것이다. Contribute로 인정 받지 못한(?) 이전 작업들이 조금 아깝지만 늦게라도 알아서 다행이다. 이번 기회에 <code>Github Contribution의 조건</code>이 어떻게 되는지 정리해본다.</p>
-<p><a href="https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/why-are-my-contributions-not-showing-up-on-my-profile">Github 문서</a> 에 따르면 Contribution의 조건은 아래와 같다.</p>
+<p><a 
+    href="https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/why-are-my-contributions-not-showing-up-on-my-profile"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    Github 문서
+</a> 에 따르면 Contribution의 조건은 아래와 같다.</p>
 <h2 id="contribution의-조건">Contribution의 조건</h2>
 <h3 id="1-issues-pull-requests-discusstions">1. Issues, pull requests, discusstions</h3>
 <ul>
@@ -161,7 +171,17 @@ git config --global user.email <span class="s2">&#34;email@example.com&#34;</spa
 <span class="c1"># check user setting</span>
 git config --global user.name
 git config --global user.email
-</code></pre></div><p><a href="https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/setting-your-commit-email-address#about-commit-email-addresses">Github 문서 참고</a></p>
+</code></pre></div><p><a 
+    href="https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/setting-your-commit-email-address#about-commit-email-addresses"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    Github 문서 참고
+</a></p>
 <p>이제 열심히 잔디를 심어보자 :)</p>
 
                 </section>
@@ -192,6 +212,10 @@ git config --global user.email
 
     
     
+    
+        <li>
+            <a href="/posts/go-benchmark-test-usage/">[Go] Benchmark Test 사용하기<aside class="dates">May 3 2021</aside></a>
+        </li>
     
         <li>
             <a href="/posts/learn-go-with-test-ko-reflection/">[Go번역] Learn Go with Tests Ko: Reflection<aside class="dates">Apr 20 2021</aside></a>

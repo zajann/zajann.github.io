@@ -6,22 +6,35 @@
     <description>Recent content in Tags on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 21 Apr 2021 19:03:13 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 May 2021 11:09:02 +0900</lastBuildDate>
+    
+	<atom:link href="https://www.zajan-dev.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>go</title>
+      <link>https://www.zajan-dev.com/tags/go/</link>
+      <pubDate>Mon, 03 May 2021 11:09:02 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>test</title>
+      <link>https://www.zajan-dev.com/tags/test/</link>
+      <pubDate>Mon, 03 May 2021 11:09:02 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/tags/test/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>github</title>
       <link>https://www.zajan-dev.com/tags/github/</link>
       <pubDate>Wed, 21 Apr 2021 19:03:13 +0900</pubDate>
       
       <guid>https://www.zajan-dev.com/tags/github/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>go</title>
-      <link>https://www.zajan-dev.com/tags/go/</link>
-      <pubDate>Tue, 20 Apr 2021 23:56:47 +0900</pubDate>
-      
-      <guid>https://www.zajan-dev.com/tags/go/</guid>
       <description></description>
     </item>
     

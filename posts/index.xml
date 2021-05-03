@@ -6,7 +6,20 @@
     <description>Recent content in Posts on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 21 Apr 2021 19:03:13 +0900</lastBuildDate><atom:link href="https://www.zajan-dev.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 May 2021 11:09:02 +0900</lastBuildDate>
+    
+	<atom:link href="https://www.zajan-dev.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[Go] Benchmark Test 사용하기</title>
+      <link>https://www.zajan-dev.com/posts/go-benchmark-test-usage/</link>
+      <pubDate>Mon, 03 May 2021 11:09:02 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/go-benchmark-test-usage/</guid>
+      <description>Intro Go로 개발을 하다보면 빈번하게 사용되는 패키지가 time패키지다. 그런데 timestamp와 같은 시간 정보를 가져올 때마다 매번 time.Now()</description>
+    </item>
+    
     <item>
       <title>[Github] Contribution이 Graph에 반영되지 않은 경우</title>
       <link>https://www.zajan-dev.com/posts/github-contribution-not-showing/</link>
@@ -22,7 +35,7 @@
       <pubDate>Tue, 20 Apr 2021 23:56:47 +0900</pubDate>
       
       <guid>https://www.zajan-dev.com/posts/learn-go-with-test-ko-reflection/</guid>
-      <description>이 글은 Learn Go with Tests의 한국어 번역 프로젝트에 참여하여 담당하였던 Reflection 파트를 번역한 글입니다. Go의 기본적인 문법과 더불어 Lean Test &amp;gt; Refactor &amp;gt; Test 반복 형태인 TDD(Test Driven D</description>
+      <description>이 글은 Learn Go with Tests의 한국어 번역 프로젝트 에 참여하여 담당하였던 Reflection 파트를 번역한 글입니다. Go의 기본적인 문법과 더불어 Lean Test &amp;gt; Refactor &amp;gt; Test 반복 형태인 TDD(Test Driven D</description>
     </item>
     
     <item>

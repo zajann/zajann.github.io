@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>test on zajan&#39;s devnote</title>
+    <link>https://www.zajan-dev.com/tags/test/</link>
+    <description>Recent content in test on zajan&#39;s devnote</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Mon, 03 May 2021 11:09:02 +0900</lastBuildDate>
+    
+	<atom:link href="https://www.zajan-dev.com/tags/test/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[Go] Benchmark Test 사용하기</title>
+      <link>https://www.zajan-dev.com/posts/go-benchmark-test-usage/</link>
+      <pubDate>Mon, 03 May 2021 11:09:02 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/go-benchmark-test-usage/</guid>
+      <description>Intro Go로 개발을 하다보면 빈번하게 사용되는 패키지가 time패키지다. 그런데 timestamp와 같은 시간 정보를 가져올 때마다 매번 time.Now()</description>
+    </item>
+    
+  </channel>
+</rss>
