@@ -6,10 +6,19 @@
     <description>Recent content on zajan&#39;s devnote</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 03 May 2021 11:09:02 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 04 May 2021 17:53:35 +0900</lastBuildDate>
     
 	<atom:link href="https://www.zajan-dev.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[Go번역] Go에서의 일반적인 Anti-patterns</title>
+      <link>https://www.zajan-dev.com/posts/common-anti-patterns-in-go/</link>
+      <pubDate>Tue, 04 May 2021 17:53:35 +0900</pubDate>
+      
+      <guid>https://www.zajan-dev.com/posts/common-anti-patterns-in-go/</guid>
+      <description>이 글은 Common anti-pattern in Go 포스트를 번역한 글로 오역 및 의역이 포함될 수 있습니다. 코딩이 예술이라는 것은 널리 알려져 있고, 좋은 작품을 만들어내고 그것을 자랑스러워하는 모</description>
+    </item>
     
     <item>
       <title>[Go] Benchmark Test 사용하기</title>

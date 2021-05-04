@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="zajan">
+		<meta name="description" content="zajan&#39;s dev note">
+
+    
+    <meta property="og:title" content="[Go번역] Go에서의 일반적인 Anti-patterns" />
+<meta property="og:description" content="이 글은 Common anti-pattern in Go 포스트를 번역한 글로 오역 및 의역이 포함될 수 있습니다. 코딩이 예술이라는 것은 널리 알려져 있고, 좋은 작품을 만들어내고 그것을 자랑스러워하는 모" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.zajan-dev.com/posts/common-anti-patterns-in-go/" />
+<meta property="article:published_time" content="2021-05-04T17:53:35+09:00" />
+<meta property="article:modified_time" content="2021-05-04T17:53:35+09:00" />
+
+    
+
+		<meta name="generator" content="Hugo 0.63.2" />
+		<title>[Go번역] Go에서의 일반적인 Anti-patterns &middot; zajan&#39;s devnote</title>
+		<link rel="shortcut icon" href="https://www.zajan-dev.com/images/favicon.ico">
+		<link rel="stylesheet" href="https://www.zajan-dev.com/css/style.css">
+		<link rel="stylesheet" href="https://www.zajan-dev.com/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="https://www.zajan-dev.com/css/font-awesome.min.css">
+		
+
+		
+		<link href="https://www.zajan-dev.com/index.xml" rel="alternate" type="application/rss+xml" title="zajan&#39;s devnote" />
+		
+
+		
+		<link rel="stylesheet" href="https://www.zajan-dev.com/css/syntax.css">
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://www.zajan-dev.com/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://www.zajan-dev.com/posts'>Archive</a>
+	<a href='https://www.zajan-dev.com/categories'>Categories</a>
+	<a href='https://www.zajan-dev.com/tags'>Tags</a>
+	<a href='https://www.zajan-dev.com/about'>About</a>
+
+	
+
+	
+	<a class="cta" href="https://www.zajan-dev.com/index.xml">Subscribe</a>
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        [Go번역] Go에서의 일반적인 Anti-patterns
+                    </h1>
+                    <h2 class="headline">
+                    May 4, 2021 17:53
+                    · 3518 words
+                    · 8 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="https://www.zajan-dev.com/tags/go">go</a>
+                          
+                              <a href="https://www.zajan-dev.com/tags/translate">translate</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                    <div id="toc">
+                      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#바람직하지-않은-패턴anti-patterns이란-무엇인가">바람직하지 않은 패턴(anti-patterns)이란 무엇인가?</a></li>
+    <li><a href="#1-외부-호출-함수에서-unexported-type을-리턴하는-것">1. 외부 호출 함수에서 unexported type을 리턴하는 것</a></li>
+    <li><a href="#2-불필요한-blank-identifier_의-사용">2. 불필요한 blank identifier(_)의 사용</a></li>
+    <li><a href="#3-두-슬라이스를-연결하기-위한-loopmultiple-append-사용">3. 두 슬라이스를 연결하기 위한 loop/multiple append 사용</a></li>
+    <li><a href="#4-make호출-내-불필요한-인자">4. make호출 내 불필요한 인자</a></li>
+    <li><a href="#5-함수-내-쓸모없는-return">5. 함수 내 쓸모없는 return</a></li>
+    <li><a href="#6-switch구문-내-쓸모-없는-break">6. switch구문 내 쓸모 없는 break</a></li>
+    <li><a href="#7-일반적인-작업에-helper-함수를-사용하지-않는-것">7. 일반적인 작업에 helper 함수를 사용하지 않는 것</a></li>
+    <li><a href="#8-불필요한-슬라이스-nil-체크">8. 불필요한 슬라이스 nil 체크</a></li>
+    <li><a href="#9-너무-복잡한-함수-리터럴">9. 너무 복잡한 함수 리터럴</a></li>
+    <li><a href="#10-단일-케이스에서의-select구문-사용">10. 단일 케이스에서의 select구문 사용</a></li>
+    <li><a href="#11-contextcontext는-함수의-첫번째-파라미터여야-한다">11. context.Context는 함수의 첫번째 파라미터여야 한다</a></li>
+  </ul>
+</nav>
+                    </div>
+                  
+                
+                <section id="post-body">
+                    <blockquote>
+<p>이 글은 <a 
+    href="https://dev.to/deepsource/common-anti-patterns-in-go-fm7"
+    
+    
+     
+      target="_blank" 
+      rel="noopener"
+    
+>
+    Common anti-pattern in Go
+</a> 포스트를 번역한 글로 오역 및 의역이 포함될 수 있습니다.</p>
+</blockquote>
+<p>코딩이 예술이라는 것은 널리 알려져 있고, 좋은 작품을 만들어내고 그것을 자랑스러워하는 모든 예술가처럼, 우리 개발자들도 예술가로서 우리가 작성한 코드에 자랑스러워한다. 예술가들은 최고의 결과를 얻기 위해 그들의 능력을 향상시킬 방법과 도구를 끊임 없이 찾는다. 비슷하게 우리도 개발자로서 우리의 스킬을 높이고 가장 중요한 질문인 **&ldquo;좋은 코드를 작성하는 방법&rdquo;**에 대한 답을 알고 싶어 한다.</p>
+<p>Federic P.Brooks는 자신의 책 <strong>&ldquo;The Mythical Man Month: Essay on Software Engineering&rdquo;</strong> 에서 이렇게 말한다.</p>
+<blockquote>
+<p><em>&ldquo;프로그래머는 시인과 비슷하게 수수한 생각에서 약간 벗어나서 일을 한다. 그들은 공기안에서, 공기로부터 상상력을 발휘하여 자신의 성을 짓는다. 유연하고 다듬고 재작업하기 쉬우며 거대한 개념구조를 쉽게 실현할 수 있는 창조 매체는 거의 없다.</em></p>
+</blockquote>
+<p>이 포스트는 위 그림의 큰 물음표에 대한 답을 찾으려 노력한다. 좋은 코드를 작성하는 가장 간단한 방법은 우리의 코드에 <strong>바람직하지 않은 패턴</strong>을 포함시키지 않는 것이다.</p>
+<p><p class="markdown-image">
+  <img src="/images/how-to-write-good-code-comic.png" alt="how to write good code comic"  />
+</p></p>
+<h2 id="바람직하지-않은-패턴anti-patterns이란-무엇인가">바람직하지 않은 패턴(anti-patterns)이란 무엇인가?</h2>
+<p>Anti-patterns은 향후 고려대상을 생각하지 않고 코드를 작성할때 발생한다. Anti-patterns은 처음에는 문제에 대한 적절한 해결방법이라고 보일수 있지만, 실제로는 코드베이스가 확장됨에 따라 모호해지고 우리의 코드베이스에 &lsquo;기술적 부채(technical debt)&lsquo;를 더하게 된다.</p>
+<p>Anti-pattern의 간단한 예로는 아래 예제 1번처럼, API 사용자가 어떻게 사용하는지를 고려하지 않고 API를 개발한 것이다. Anti-pattern이 무엇인지 알고 프로그래밍을 하면서 의식적으로 사용을 피하는 것은 더욱 가독성/유지보수성이 좋은 코드베이스로 가는데에 중요한 과정이다. 이 포스트에서 Go에서 일반적으로 범하는 Anti-patterns들에 대해 살펴본다.</p>
+<h2 id="1-외부-호출-함수에서-unexported-type을-리턴하는-것">1. 외부 호출 함수에서 unexported type을 리턴하는 것</h2>
+<p>Go에서 우리는 어떤 <code>field</code>나 <code>variable</code>를 <code>export</code>하기 위해선 그것의 이름의 첫 시작을 대문자로 해주어야 한다. 그것들을 exporting하는 동기는 다른 패키지에서 그것들을 보이게 하기 위해서이다. 예를들어 <code>math</code>패키지의 <code>Pi</code>함수를 사용하고자 한다면, 우리는 <code>math.Pi</code>라는 형태로 호출해야한다. <code>math.pi</code>를 사용한다면 동작하지 않고 에러를 낼 것이다.</p>
+<p>소문자로 시작하는 이름(구조체 필드, 함수, 변수)은 unexported 하며, 오직 그것을 정의한 패키지 내부에서만 보인다.</p>
+<p>외부 호출 함수나 메소드에서 unexported type를 리턴하는 것은 해당 함수를 호출한 사용자가 그것을 사용하기 위해서 다시 타입을 정의해야 하므로 사용하는데 불편할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Bad practice
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">unexportedType</span> <span class="kt">string</span>
+<span class="kd">func</span> <span class="nf">ExportedFunc</span><span class="p">(</span><span class="p">)</span> <span class="nx">unexportedType</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">unexportedType</span><span class="p">(</span><span class="s">&#34;some string&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Recommended
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">ExportedType</span> <span class="kt">string</span>
+<span class="kd">func</span> <span class="nf">ExportedFunc</span><span class="p">(</span><span class="p">)</span> <span class="nx">ExportedType</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">ExportedType</span><span class="p">(</span><span class="s">&#34;some string&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="2-불필요한-blank-identifier_의-사용">2. 불필요한 blank identifier(_)의 사용</h2>
+<p>많은 상황에서 값을 blank identifier에 할당하는것은 불필요하다. <code>for</code>루프에서 blank identifier를 사용하는 경우에 대해 Go Specdms 다음과 같이 언급한다.</p>
+<blockquote>
+<p>마지막 반복 변수가 blank identifier인 경우는 해당 blank identifier가 없는 경우와 동일하다.</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Bad practice
+</span><span class="c1"></span><span class="k">for</span> <span class="nx">_</span> <span class="p">=</span> <span class="k">range</span> <span class="nx">sequence</span> <span class="p">{</span>
+    <span class="nf">run</span><span class="p">(</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">x</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">someMap</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+<span class="nx">_</span> <span class="p">=</span> <span class="o">&lt;-</span><span class="nx">ch</span>
+
+<span class="c1">// Recommended
+</span><span class="c1"></span><span class="k">for</span> <span class="k">range</span> <span class="nx">something</span> <span class="p">{</span>
+    <span class="nf">run</span><span class="p">(</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">x</span> <span class="o">:=</span> <span class="nx">someMap</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+<span class="o">&lt;-</span><span class="nx">ch</span>
+</code></pre></div><h2 id="3-두-슬라이스를-연결하기-위한-loopmultiple-append-사용">3. 두 슬라이스를 연결하기 위한 loop/multiple <code>append</code> 사용</h2>
+<p>두 슬라이스를 하나로 합치려 할 때, 슬라이스를 순회하며 각 요소를 하나씩 추가할 필요가 없다. 대신 하나의 <code>append</code>구문으로 사용하는 것이 훨씬 효율적이고 좋다.</p>
+<p>예를 들어, 아래 예제 코드는 <code>sliceTwo</code>를 순회하며 각 요소를 하나씩 추가하여 합치고 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">sliceTwo</span> <span class="p">{</span>
+    <span class="nx">sliceOne</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">sliceOne</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>하지만 <code>append</code>는 <code>variadic</code>한 함수이기 때문에 0개 또는 다수의 인자로 호출될 수 있다. 따라서, 위의 예제는 아래처럼 하나의 <code>append</code>함수를 사용하여 훨신 간단하게 개선할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">sliceOne</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">sliceOne</span><span class="p">,</span> <span class="nx">sliceTwo</span><span class="err">…</span><span class="p">)</span>
+</code></pre></div><h2 id="4-make호출-내-불필요한-인자">4. <code>make</code>호출 내 불필요한 인자</h2>
+<p><code>make</code>함수는 맵, 슬라이스, 채널 타입의 객체를 초기화하고 할당하는데 사용되는 특별한 내장 함수이다. <code>make</code>를 통해 슬라이스를 초기화하기 위해서 우리는 슬라이스 타입, 슬라이스의 길이, 슬라이스의 용량을 인자로 전달 해야한다. <code>make</code>를 통해 맵을 초기화하는 경우에는 <code>map</code>의 사이즈를 인자로 전달해야 한다.</p>
+<p>하지만 <code>make</code>는 아래 인자들에 대한 기본값을 갖는다.</p>
+<ul>
+<li>채널일 경우, 버퍼의 용량을 0으로 함(unbuffered)</li>
+<li>맵일 경우, 사이즈는 작은 시작 사이즈를 기본값으로 할당됨</li>
+<li>슬라이스일 경우, 용량이 생략되면 길이와 같게 용량이 설정됨</li>
+</ul>
+<p>따라서,</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">ch</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nx">sl</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div><p>위의 코드는 아래처럼 개선될 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">ch</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+<span class="nx">sl</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div><p>하지만, 채널에 명명된 상수를 사용하는 것은 디버깅을 위한 목적으로 하거나, 수학, 플랫폼 별 코드를 수용하기 위해 anti-pattern으로 간주되지 않는다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="nx">c</span> <span class="p">=</span> <span class="mi">0</span>
+<span class="nx">ch</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">c</span><span class="p">)</span> <span class="c1">// Not an anti-pattern
+</span></code></pre></div><h2 id="5-함수-내-쓸모없는-return">5. 함수 내 쓸모없는 <code>return</code></h2>
+<p>리턴값을 갖지 않는 함수에서 <code>return</code>구문을 마지막에 넣는 것은 좋은 방법이 아니다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Useless return, not recommended
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">alwaysPrintFoofoo</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;foofoo&#34;</span><span class="p">)</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+
+<span class="c1">// Recommended
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">alwaysPrintFoo</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;foofoo&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>하지만 명명된 리턴을 쓸모없는 리턴과 혼동하면 안된다. 아래 리턴 구문은 실제로 리턴값을 갖는다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">printAndReturnFoofoo</span><span class="p">(</span><span class="p">)</span> <span class="p">(</span><span class="nx">foofoo</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">foofoo</span> <span class="o">:=</span> <span class="s">&#34;foofoo&#34;</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">foofoo</span><span class="p">)</span>
+    <span class="k">return</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="6-switch구문-내-쓸모-없는-break">6. <code>switch</code>구문 내 쓸모 없는 <code>break</code></h2>
+<p>Go에선 <code>switch</code>구문은 자동적인 <code>fallthrough</code>을 갖지 않는다. C같은 프로그래밍 언어에선 <code>break</code>구문이 없다면 다음 케이스에대한 연산이 통과된다. 하지만 <code>switch</code>-case 구문의 <code>fallthrough</code>는 매우 드물게 사용되고 대부분 버그를 유발한다는 것이 일반적이다. 따라서 Go를 포함한 현대의 프로그래밍 언어에서는 해당 로직을 <code>fallthrough</code>되지 않는 것을 기본으로 변경했다.</p>
+<p>따라서 <code>switch</code>구문에서 케이서의 마지막에 <code>break</code>구문을 넣는것은 필요하지 않다. 아래 두 예제는 동일하게 동작한다.</p>
+<p>나쁜 예제:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">switch</span> <span class="nx">s</span> <span class="p">{</span>
+<span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;case one&#34;</span><span class="p">)</span>
+    <span class="k">break</span>
+<span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;case two&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>좋은 예제:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">switch</span> <span class="nx">s</span> <span class="p">{</span>
+<span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;case one&#34;</span><span class="p">)</span>
+<span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;case two&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>하지만 만약 Go에서 <code>switch</code>내에 <code>fallthrough</code>를 구현해야하는 상황이라면, 우리는 아래 예제처럼 <code>fallthrough</code>구문을 사용할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">switch</span> <span class="nx">s</span> <span class="p">{</span>
+<span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;1&#34;</span><span class="p">)</span>
+    <span class="k">fallthrough</span>
+<span class="k">case</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;2&#34;</span><span class="p">)</span>
+    <span class="k">fallthrough</span>
+<span class="k">case</span> <span class="mi">3</span><span class="p">:</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;3&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="7-일반적인-작업에-helper-함수를-사용하지-않는-것">7. 일반적인 작업에 helper 함수를 사용하지 않는 것</h2>
+<p>특정 인자의 집합에 대해 어떤 함수는 효율성 향상과 이해/가독성 향상을 위해 대신 사용할 수 있는 함수가 있다.</p>
+<p>예를 들어 Go에선, 다수의 고루틴의 종료를 기다리기 위해 <code>sync.WaitGroup</code>을 사용할 수 있는데, <code>sync.WaitGroup</code>을 증가시키는 것을 대신 아래처럼 카운터를 <code>1</code>증가시키고 모든 고루틴이 수행되었다는걸 알기 위해 <code>-1</code>을 추가해 카운터를 0으로 만든다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">// ...some code
+</span><span class="c1"></span><span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div><p>하지만 <code>sync.Waitgroup</code>에는 수동으로 카운터를 <code>0</code>으로 만들 필요 없이 모든 고루틴의 완료를 알 수 있는 <code>wg.Done()</code>이라는 훨씬 이해하기 쉬운 helper 함수가 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">// ...some code
+</span><span class="c1"></span><span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">(</span><span class="p">)</span>
+</code></pre></div><h2 id="8-불필요한-슬라이스-nil-체크">8. 불필요한 슬라이스 nil 체크</h2>
+<p><code>nil</code>슬라이스의 길이는 0으로 계산된다. 따라서 길이를 확인하기 전에 해당 슬라이스가 <code>nil</code>인지 아닌지 확인할 필요가 없다.</p>
+<p>아례 예제에서 <code>nil</code>체크는 불필요한 부분이다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">if</span> <span class="nx">x</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+    <span class="c1">// do something
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div><p>위의 예제는 <code>nil</code>체크를 생략하여 수정될 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+    <span class="c1">// do something
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div><h2 id="9-너무-복잡한-함수-리터럴">9. 너무 복잡한 함수 리터럴</h2>
+<p>단일 함수만 호출하는 함수 리터럴은 중복되므로 내부 함수의 값에 다른 변경 없이 제거될 수 있다. 대신, 외부 함수 내부에서 호출되는 내부 함수는 호출 되어야 한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// not recommanded
+</span><span class="c1"></span><span class="nx">fn</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">x</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">add</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c1">// Recommanded
+</span><span class="c1"></span><span class="nx">fn</span> <span class="o">:=</span> <span class="nx">add</span>
+</code></pre></div><h2 id="10-단일-케이스에서의-select구문-사용">10. 단일 케이스에서의 <code>select</code>구문 사용</h2>
+<p><code>select</code>구문을 통해 다수의 통신 작업에서 고루틴의 대기를 할 수 있다. 하지만 하나의 작업/케이스라면, 우리는 실제로 <code>select</code>구문이 필요하지 않다. 단순한 <code>send</code>또는 <code>receive</code>작업이 도움이 될 수 있다. 만약 블로킹 없이 send/receive를 해야하는 상황이라면, <code>select</code>를 non-blocking으로 만들기 위해 <code>default</code>구문을 추가하는 것이 좋다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Bad pattern
+</span><span class="c1"></span><span class="k">select</span> <span class="p">{</span>
+<span class="k">case</span> <span class="nx">x</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">ch</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Recommended
+</span><span class="c1"></span><span class="nx">x</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">ch</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+</code></pre></div><p><code>default</code> 사용:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">select</span> <span class="p">{</span>
+<span class="k">case</span> <span class="nx">x</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">ch</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+<span class="k">default</span><span class="p">:</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;default&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="11-contextcontext는-함수의-첫번째-파라미터여야-한다">11. context.Context는 함수의 첫번째 파라미터여야 한다</h2>
+<p>context.Context는 관용적으로 ctx라는 이름으로 첫번째 파리미터여야 한다. ctx는 Go 코드에서 많은 함수에 사용되는 공통 인자이고, 논리적으로 인수 집합에 가장 첫번째 혹은 마지막에 놓는 것이 좋기 때문이다. 왜 그럴까? 이것은 우리가 ctx의 사용의 균일한 패턴 때문에 구문을 포함시키는 것을 기억하도록 도와준다. Go에서 <code>variadic</code>한 변수는 인수 집앞에 마지막에 올 것이기 때문에 context.Context는 첫번째 인자로 두는 것이 좋다. Node.js와 같은 다양한 프로젝트에도 첫번째 error callback과 같은 컨벤션이 있다. 마찬가지로 context.Context는 항상 함수의 첫번째 파라미터여야 한다는 컨벤션이 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Bad practice
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">badPatternFunc</span><span class="p">(</span><span class="nx">k</span> <span class="nx">favContextKey</span><span class="p">,</span> <span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="c1">// Recommended
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">goodPatternFunc</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">k</span> <span class="nx">favContextKey</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></div><p><em>원문에는 자동화 코드 리뷰 툴인 DeepSource에 대한 내용이 기술되어 있지만 본 포스트의 내용과는 무관하다 판단되어 생략하였습니다.</em></p>
+
+                </section>
+            </article>
+
+            
+
+            
+                <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'zajann-github-io'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+            
+
+            
+                <ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/posts/go-benchmark-test-usage/">[Go] Benchmark Test 사용하기<aside class="dates">May 3 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/github-contribution-not-showing/">[Github] Contribution이 Graph에 반영되지 않은 경우<aside class="dates">Apr 21 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/learn-go-with-test-ko-reflection/">[Go번역] Learn Go with Tests Ko: Reflection<aside class="dates">Apr 20 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/devdiary-2021-04-15/">[DevDiary] 그림을 그릴 줄 아는 개발자<aside class="dates">Apr 15 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/understatnd-the-design-of-sync-pool/">[Go번역] sync.Pool 디자인 이해하기<aside class="dates">Apr 14 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/leetcode-valid-palindrome/">[알고리즘] Leetcode: Valid Palindrome<aside class="dates">Mar 24 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/python-basic-syntax/">[Python] 파이썬 기초를 알아보자<aside class="dates">Mar 18 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/prevent-slice-modification/">[Go] 누가 내 Slice를 옮겼을까<aside class="dates">Nov 23 2020</aside></a>
+        </li>
+    
+</ul>
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/zajann">
+        <i class="fa fa-github-square"></i>
+    </a>
+    
+    
+    <a class="symbol" href="https://www.zajan-dev.com/index.xml">
+        <i class="fa fa-rss-square"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2021 <i class="fa fa-heart" aria-hidden="true"></i> zajan
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://www.zajan-dev.com/js/jquery-3.3.1.min.js"></script>
+<script src="https://www.zajan-dev.com/js/main.js"></script>
+<script src="https://www.zajan-dev.com/js/highlight.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.7.1/gist-embed.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-157313054-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>
